@@ -1,0 +1,11 @@
+{
+  "name": "crawl_tiki",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "n-readlines": "^1.0.1",
+    "puppeteer": "^13.0.0",
+    "puppeteer-extra": "^3.2.3"
+  }
+}
