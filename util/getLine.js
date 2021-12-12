@@ -1,5 +1,9 @@
 const readLine = require('n-readlines')
-module.exports = async function getLine(end = 1, fileName) {
+const fs = require('fs')
+module.exports = function getLine(end = 1, fileName) {
+  if (!fs.existsSync(fileName)) {
+    return null
+  }
   let lineNumber = 1
   let line
   const liner = new readLine(fileName)

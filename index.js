@@ -8,12 +8,14 @@ process.setMaxListeners(0)
 class Crawl {
   async crawl(cb) {
     let result
-    await puppeteer.launch({ headless: true }).then(async (browser) => {
-      const page = await browser.newPage()
-      await page.setViewport({ width: 800, height: 600 })
-      result = await cb(page)
-      await browser.close()
-    })
+    await puppeteer
+      .launch({ headless: true, args: ["--no-sandbox"] })
+      .then(async (browser) => {
+        const page = await browser.newPage()
+        await page.setViewport({ width: 800, height: 600 })
+        result = await cb(page)
+        await browser.close()
+      })
     return result
   }
   async saveSubCategories(categories = []) {
@@ -58,13 +60,13 @@ class Crawl {
     for (let i = from; i <= to; i++) {
       await this.getProductsOfSubCategory(5, i)
     }
-    console.log('Done');
+    console.log('Done')
   }
 }
 async function main() {
   const crawl = new Crawl()
-  // await crawl.getAllProducts()
-  const categories = getMainCategory()
-  await crawl.saveSubCategories(categories)
+  await crawl.getAllProducts(1, 91)
+  // const categories = getMainCategory()
+  // await crawl.saveSubCategories(categories)
 }
 main()
