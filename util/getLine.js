@@ -14,7 +14,7 @@ module.exports = function getLine(end = 1, fileName) {
     }
     if (lineNumber === end) {
       const row = line.toString('utf-8')
-      result = row.split(',')
+      result = row && row !== '\r' && row.length >= 2 ? row.split(',') : null
     }
     lineNumber++
   }

@@ -20,7 +20,7 @@ class WriteFile {
     const rows = data.map((row) => {
       return row.join(',')
     })
-    const csv = '\ufeff' + rows.join('\r\n')
+    const csv = '\ufeff' + rows.join('\n')
 
     fs.writeFileSync(fileName, csv, 'utf-8')
   }

@@ -3,13 +3,15 @@ const WriteFile = require('./util/wirteFile')
 const subCategory = require('./helper/subCategory')
 const getMainCategory = require('./helper/getMainCategory')
 const getProductsOfSubCategory = require('./helper/getProductsOfSubCategory')
+const getProductInformation = require('./helper/getProductInformation')
 const getLine = require('./util/getLine')
+const getOldCrawl = require('./helper/getOldCrawl')
 process.setMaxListeners(0)
 class Crawl {
   async crawl(cb) {
     let result
     await puppeteer
-      .launch({ headless: true, args: ["--no-sandbox"] })
+      .launch({ headless: true, args: ['--no-sandbox'] })
       .then(async (browser) => {
         const page = await browser.newPage()
         await page.setViewport({ width: 800, height: 600 })
@@ -62,11 +64,23 @@ class Crawl {
     }
     console.log('Done')
   }
+  async getDetailProducts(n = 1) {
+    const oldCrawl = getOldCrawl()
+    try {
+      const data = await Promise.all(getProductInformation(n))
+    } catch (error) {
+      console.log(error.message);
+      const writeFile = new WriteFile('currentCrawl.csv', 'csv')
+      writeFile.write(oldCrawl)
+    }
+  }
 }
 async function main() {
   const crawl = new Crawl()
-  await crawl.getAllProducts(1, 91)
+  // await crawl.getAllProducts(1, 91)
   // const categories = getMainCategory()
   // await crawl.saveSubCategories(categories)
+  await crawl.getDetailProducts(10)
+  console.log(3);
 }
 main()
